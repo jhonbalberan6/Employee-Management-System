@@ -1,0 +1,59 @@
+/* Custom CSS for Employee Management System - Cerulean Edition */
+
+/* Global Styles */
+body {
+    background-color: #f8f9fa;
+}
+
+/* Login Page Styles (index.php) */
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.login-card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+.input-group-text {
+    background-color: white;
+}
+
+/* Dashboard Navigation & Content Layout */
+#content {
+    min-height: 100vh;
+    transition: all 0.3s;
+    padding: 20px;
+}
+
+/* Offcanvas Sidebar Styling */
+.offcanvas-header {
+    background-color: #033C73; /* Cerulean Dark Blue */
+    color: white;
+}
+
+.nav-link {
+    color: #444;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+.nav-link:hover, .nav-link.active {
+    background-color: #ebf5ff;
+    color: #033C73;
+}
+
+.nav-link i {
+    font-size: 1.2rem;
+    margin-right: 15px;
+}
+
+/* Responsive Table Adjustments */
+.table-responsive {
+    border: none;
+}
