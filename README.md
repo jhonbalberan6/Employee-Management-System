@@ -48,7 +48,7 @@ ems-project1/
 1.  **Prerequisites:** Ensure you have a local server environment like **XAMPP**, **WAMP**, or **Laragon**.
 2.  **Clone the Repository:**
     ```bash
-    git clone https://github.com/yourusername/valleyquest-ems.git](https://github.com/jhonbalberan6/Employee-Management-System.git
+    git clone https://github.com/jhonbalberan6/Employee-Management-System.git
     ```
 3.  **Database Setup:**
     - Open **phpMyAdmin**.
