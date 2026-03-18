@@ -7,7 +7,7 @@ A secure, responsive, and localized web application for managing employee record
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3-7952B3.svg)
 ![MySQL](https://img.shields.io/badge/MySQL-Data-4479A1.svg)
 
-## 🚀 Overview
+## Overview
 
 ValleyQuest Solutions EMS is a specialized HR tool built to handle the lifecycle of employee data. It features a modern, mobile-first interface using **Bootswatch Cerulean** and provides full CRUD (Create, Read, Update, Delete) capabilities through an intuitive, modal-driven dashboard.
 
@@ -19,7 +19,7 @@ ValleyQuest Solutions EMS is a specialized HR tool built to handle the lifecycle
 - **Modal-Driven CRUD:** Manage records without leaving the dashboard page.
 - **Search Engine:** Filter records by Name, ID, Department, or Position using SQL prepared statements.
 
-## 🛠️ Technical Stack
+## Technical Stack
 - **Frontend:** HTML5, CSS3, JavaScript, Bootstrap 5 (Bootswatch Cerulean), Bootstrap Icons.
 - **Backend:** PHP 8.x.
 - **Database:** MySQL.
