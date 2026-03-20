@@ -27,6 +27,8 @@ $total_salary = ($result_salary && $row = $result_salary->fetch_assoc()) ? numbe
 $sql_users = "SELECT COUNT(*) AS total_users FROM users";
 $result_users = $conn->query($sql_users);
 $total_users = ($result_users && $row = $result_users->fetch_assoc()) ? $row['total_users'] : 0;
+
+$search_query = trim($_GET['search'] ?? '');
 ?>
 
 <!DOCTYPE html>
@@ -73,35 +75,36 @@ $total_users = ($result_users && $row = $result_users->fetch_assoc()) ? $row['to
 
 <!-- Top Navbar - Module 3 -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary border-bottom shadow-sm px-4">
-    <div class="container-fluid">
-        <button class="btn btn-outline-light me-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar">
-            <i class="bi bi-list fs-5"></i>
-        </button>
-        
-        <span class="navbar-brand d-none d-lg-block fw-bold"><i class="bi bi-rocket-takeoff-fill me-2"></i>ValleyQuest</span>
-        
-        <form class="d-flex ms-auto me-3 d-none d-md-flex" role="search" action="admin_dashboard.php" method="GET">
-            <div class="input-group">
-                <input class="form-control" type="search" name="search" placeholder="Search records..." aria-label="Search" value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>">
-                <button class="btn btn-light text-primary border-0" type="submit"><i class="bi bi-search"></i></button>
-            </div>
-            <?php if (isset($_GET['search']) && !empty($_GET['search'])): ?>
-                <a href="admin_dashboard.php" class="btn btn-outline-light border-0 ms-2" title="Clear Search">
+    <div class="container-fluid dashboard-topbar">
+        <div class="topbar-left">
+            <button class="btn btn-outline-light me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar">
+                <i class="bi bi-list fs-5"></i>
+            </button>
+            <span class="navbar-brand d-none d-lg-block fw-bold mb-0"><i class="bi bi-rocket-takeoff-fill me-2"></i>ValleyQuest</span>
+        </div>
+
+        <div class="topbar-right ms-auto">
+            <form class="navbar-search" role="search" action="admin_dashboard.php" method="GET" id="searchForm">
+                <a href="admin_dashboard.php" class="btn btn-outline-light border-0 p-0 search-clear-btn <?php echo empty($search_query) ? 'is-hidden' : ''; ?>" title="Clear Search" aria-label="Clear Search" <?php echo empty($search_query) ? 'tabindex="-1" aria-disabled="true"' : ''; ?>>
                     <i class="bi bi-x-lg"></i>
                 </a>
-            <?php endif; ?>
-        </form>
+                <div class="input-group input-group-sm search-group">
+                    <input class="form-control" type="search" name="search" placeholder="Search..." aria-label="Search" value="<?php echo htmlspecialchars($search_query); ?>">
+                    <button class="btn btn-light text-primary border-0" type="submit"><i class="bi bi-search"></i></button>
+                </div>
+            </form>
 
-        <div class="dropdown">
-            <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-person-circle fs-4 me-2"></i>
-                <strong><?php echo htmlspecialchars($_SESSION['username']); ?></strong>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end shadow border-0" aria-labelledby="dropdownUser">
-                <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Profile</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item text-danger" href="logout.php"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
-            </ul>
+            <div class="dropdown">
+                <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle navbar-user-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-person-circle navbar-user-icon"></i>
+                    <strong class="navbar-user-name"><?php echo htmlspecialchars($_SESSION['username']); ?></strong>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end shadow border-0" aria-labelledby="dropdownUser">
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Profile</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" href="logout.php"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                </ul>
+            </div>
         </div>
     </div>
 </nav>
@@ -109,8 +112,8 @@ $total_users = ($result_users && $row = $result_users->fetch_assoc()) ? $row['to
 <!-- Main Content - Module 6 -->
 <div id="content">
     <div class="container-fluid pt-4">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2>Dashboard Overview</h2>
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+            <h2 style="font-size: clamp(1.5rem, 4vw, 2rem); margin-bottom: 0;">Dashboard Overview</h2>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
@@ -129,15 +132,15 @@ $total_users = ($result_users && $row = $result_users->fetch_assoc()) ? $row['to
 
         <!-- Cardboxes - Module 6 -->
         <div class="row g-4">
-            <div class="col-md-3">
+            <div class="col-12 col-sm-6 col-md-3">
                 <div class="card bg-primary text-white h-100 shadow-sm">
                     <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <h6 class="text-uppercase mb-1">Total Employees</h6>
-                                <h2 class="display-5 fw-bold mb-0"><?php echo $total_employees; ?></h2>
+                        <div class="d-flex justify-content-between align-items-center flex-wrap">
+                            <div class="flex-grow-1">
+                                <h6 class="text-uppercase mb-1 small">Total Employees</h6>
+                                <h2 class="fw-bold mb-0" style="font-size: clamp(1.25rem, 4vw, 2rem); word-break: break-word;"><?php echo $total_employees; ?></h2>
                             </div>
-                            <i class="bi bi-people-fill fs-1 opacity-50"></i>
+                            <i class="bi bi-people-fill opacity-50" style="font-size: clamp(1.25rem, 4vw, 2rem); flex-shrink: 0; margin-left: 0.5rem;"></i>
                         </div>
                     </div>
                     <div class="card-footer bg-transparent border-top-0">
@@ -146,15 +149,15 @@ $total_users = ($result_users && $row = $result_users->fetch_assoc()) ? $row['to
                 </div>
             </div>
             
-            <div class="col-md-3">
+            <div class="col-12 col-sm-6 col-md-3">
                 <div class="card bg-success text-white h-100 shadow-sm">
                     <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <h6 class="text-uppercase mb-1">Departments</h6>
-                                <h2 class="display-5 fw-bold mb-0"><?php echo $total_departments; ?></h2>
+                        <div class="d-flex justify-content-between align-items-center flex-wrap">
+                            <div class="flex-grow-1">
+                                <h6 class="text-uppercase mb-1 small">Departments</h6>
+                                <h2 class="fw-bold mb-0" style="font-size: clamp(1.25rem, 4vw, 2rem); word-break: break-word;"><?php echo $total_departments; ?></h2>
                             </div>
-                            <i class="bi bi-building fs-1 opacity-50"></i>
+                            <i class="bi bi-building opacity-50" style="font-size: clamp(1.25rem, 4vw, 2rem); flex-shrink: 0; margin-left: 0.5rem;"></i>
                         </div>
                     </div>
                     <div class="card-footer bg-transparent border-top-0">
@@ -163,15 +166,15 @@ $total_users = ($result_users && $row = $result_users->fetch_assoc()) ? $row['to
                 </div>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-12 col-sm-6 col-md-3">
                 <div class="card bg-info text-white h-100 shadow-sm">
                     <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <h6 class="text-uppercase mb-1">Total Salary</h6>
-                                <h2 class="display-5 fw-bold mb-0">₱<?php echo $total_salary; ?></h2>
+                        <div class="d-flex justify-content-between align-items-center flex-wrap">
+                            <div class="flex-grow-1">
+                                <h6 class="text-uppercase mb-1 small">Total Salary</h6>
+                                <h2 class="fw-bold mb-0" style="font-size: clamp(1.25rem, 4vw, 2rem); word-break: break-word; overflow-wrap: break-word;">₱<?php echo $total_salary; ?></h2>
                             </div>
-                            <i class="bi bi-cash-stack fs-1 opacity-50"></i>
+                            <i class="bi bi-cash-stack opacity-50" style="font-size: clamp(1.25rem, 4vw, 2rem); flex-shrink: 0; margin-left: 0.5rem;"></i>
                         </div>
                     </div>
                     <div class="card-footer bg-transparent border-top-0">
@@ -180,15 +183,15 @@ $total_users = ($result_users && $row = $result_users->fetch_assoc()) ? $row['to
                 </div>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-12 col-sm-6 col-md-3">
                 <div class="card bg-warning text-white h-100 shadow-sm">
                     <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <h6 class="text-uppercase mb-1">System Users</h6>
-                                <h2 class="display-5 fw-bold mb-0"><?php echo $total_users; ?></h2>
+                        <div class="d-flex justify-content-between align-items-center flex-wrap">
+                            <div class="flex-grow-1">
+                                <h6 class="text-uppercase mb-1 small">System Users</h6>
+                                <h2 class="fw-bold mb-0" style="font-size: clamp(1.25rem, 4vw, 2rem); word-break: break-word;"><?php echo $total_users; ?></h2>
                             </div>
-                            <i class="bi bi-shield-lock fs-1 opacity-50"></i>
+                            <i class="bi bi-shield-lock opacity-50" style="font-size: clamp(1.25rem, 4vw, 2rem); flex-shrink: 0; margin-left: 0.5rem;"></i>
                         </div>
                     </div>
                     <div class="card-footer bg-transparent border-top-0">
@@ -277,7 +280,7 @@ $total_users = ($result_users && $row = $result_users->fetch_assoc()) ? $row['to
                                                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <!-- PERSONAL INFO SECTION -->
+                                                <!-- P ERSONAL INFO SECTION -->
                                                 <div class="mb-4 pb-4 border-bottom">
                                                     <h6 class="text-uppercase fw-bold text-primary mb-3"><i class="bi bi-person me-2"></i>Personal Information</h6>
                                                     <div class="row g-3">
