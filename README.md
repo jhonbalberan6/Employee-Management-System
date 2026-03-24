@@ -40,8 +40,7 @@ ems-project1/
 ├── register.php        # Logic: Admin account creation
 ├── logout.php          # Logic: Secure session termination
 ├── database.sql        # Database: Schema & localized sample data
-└── STUDY_GUIDE.md      # Documentation: Defense & technical walkthrough
-```
+
 
 ## Installation & Setup
 
